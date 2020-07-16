@@ -1,6 +1,8 @@
 Tweet Signer:
 =============
 
+“Not your keys, not your tweets.”
+
 Verified Tweets ✌
 
 Usage:
