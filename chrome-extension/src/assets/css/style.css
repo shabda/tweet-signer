@@ -1,0 +1,19 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.todo-list-container{
+    min-width: 500px;
+}
+.todo-list{
+    max-height: 400px;
+    overflow-y: scroll;
+}
+.card-header{
+    background-color: rgba(255, 255, 255, 0.21);
+    border-bottom: 2px solid #3c8dbc;
+}
+
+.card-title{
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1
+}
