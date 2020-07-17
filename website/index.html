@@ -86,34 +86,57 @@
 
     <script>
       (function() {
-        document.getElementById('urlform').addEventListener('submit', function(e) {
+        document.getElementById('urlform').addEventListener('submit', async function(e) {
           e.preventDefault();
-          var url = document.getElementById('url').value;
-          url = url.replace('twitter.com', 'nitter.tuxcanfly.me'); // REMOVE
-          fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              document.getElementById('tweet').value = data.tweet.text
-              var keyurl = data.tweet.profile.bio.match(/https?:\/\/\w+.\w+\/keys.json/g)[0];
-              var qrurl = data.tweet.photos[0];
-              var qrsrc = "https://nitter.tuxcanfly.me/pic/" + qrurl;
-              document.getElementById('qr').src = qrsrc;
 
-              const codeReader = new ZXing.BrowserQRCodeReader()
-              const img = document.getElementById('qr')
-              codeReader.decodeFromImage(img).then((result) => {
-                document.getElementById('signature').textContent = result.text;
-              }).catch((err) => {
-                document.getElementById('text').textContent = err
-              })
+          let bio, qrurl;
+          let tweet, signature, pubkey;
 
-              fetch(keyurl)
-                .then(response => response.json())
-                .then(data => {
-                  document.getElementById('pubkey').value = data.key.body;
-                })
-            })
-            .catch(error => console.error(error))
+          try {
+            let url = document.getElementById('url').value;
+            url = url.replace('twitter.com', 'nitter.tuxcanfly.me'); // REMOVE
+
+            const response = await fetch(url);
+            const json = await response.json();
+            tweet = json.tweet.text;
+            bio = json.tweet.profile.bio;
+            if (json.tweet.photos.length !== 1) {
+              throw new Error("Must have exactly one attached photo.");
+            }
+            qrurl = json.tweet.photos[0];
+            document.getElementById('tweet').value = tweet
+          } catch (e) {
+            document.getElementById('text').textContent = e;
+          }
+
+          try {
+            const src = "https://nitter.tuxcanfly.me/pic/" + qrurl;
+            document.getElementById('qr').src = src;
+
+            const codeReader = new ZXing.BrowserQRCodeReader()
+            const img = document.getElementById('qr')
+            const result = await codeReader.decodeFromImage(img);
+            signature = result.text;
+            document.getElementById('signature').textContent = signature;
+          } catch (e) {
+            document.getElementById('text').textContent = e;
+          }
+
+          try {
+            const match = bio.match(/https?:\/\/\w+.\w+\/keys.json/g);
+            if (match === null) {
+              throw new Error("Public key url must end with keys.json");
+            }
+            const url = match[0];
+            const response = await fetch(url)
+            const json = await response.json();
+            pubkey = json.key.body;
+            document.getElementById('pubkey').value = pubkey;
+          } catch (e) {
+            document.getElementById('text').textContent = e;
+          }
+
+          console.log(tweet, signature, pubkey);
         });
       }());
     </script>
