@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { InputGroup, FormControl, Button } from 'react-bootstrap'
 import QRCode from 'qrcode.react'
 import NodeRSA from 'node-rsa'
-import QR from 'qrcode'
+import PrivateKeyForm from './PrivateKeyForm'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCogs } from '@fortawesome/free-solid-svg-icons'
 
-class TwitterGPG extends React.Component {
+class TwitterGPG extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -12,42 +14,57 @@ class TwitterGPG extends React.Component {
       tweetMessage: '',
       signature: ''
     }
+    this.rerenderParentCallback = this.rerenderParentCallback.bind(this)
   }
 
   componentDidMount () {
     chrome.storage.local.get(['privateKey'], (result) => {
       const privateKey = result.privateKey || ''
-      this.setState({ privateKey })
+      this.setState({ ...this.state, privateKey })
     })
   }
 
   handleOnClick () {
-    console.log('Hello world!! I am clicking')
     if (!this.state.tweetMessage) { return }
     this.setState((prevState) => {
-      const privateKey = prevState.privateKey
       const responseSignature = this.signTweet(prevState.tweetMessage)
-      console.log('Signature : ', responseSignature)
-      return { privateKey: privateKey, tweetMessage: '', signature: responseSignature }
+      return { ...this.state, tweetMessage: '', signature: responseSignature }
     })
   }
 
   signTweet (data) {
-    console.log('Private key : ', this.state.privateKey)
     const rsa = new NodeRSA(this.state.privateKey, NodeRSA.FormatPem)
     const sign = rsa.sign(data, 'hex')
     return sign
-    // const qr = QR.toDataURL(sign)
-    // return qr.toString()
   }
 
-  render () {
+  rerenderParentCallback () {
+    chrome.storage.local.get(['privateKey'], (result) => {
+      const privateKey = result.privateKey || ''
+      this.setState({ ...this.state, signature: '', privateKey })
+    })
+  }
+
+  renderPrivateKeyPage () {
+    console.log('rendering private key page')
     return (
-      <div className='card todo-list-container'>
-        <div className='card-header'><h3 className='card-title'>Todo List</h3></div>
+      <PrivateKeyForm rerenderParentCallback={this.rerenderParentCallback} />
+    )
+  }
+
+  renderTweetPage () {
+    return (
+      <div className='card todo-list-container' style={{ minWidth: '640px', minHeight: '480px' }}>
+        <div className='card-header'>
+          <div class='d-sm-flex justify-content-between align-items-center mb-4'>
+            <h3 class='text-dark mb-0'>Tweet Signer</h3>
+            <button className='btn btn-primary btn-sm d-none d-sm-inline-block' onClick={() => this.setState({ ...this.state, privateKey: '' })}>
+              <FontAwesomeIcon icon={faCogs} />
+            </button>
+          </div>
+        </div>
         <div className='card-body'>
-          {/* {this.state.privateKey === '' ? <FormToSavePrivateKey /> : console.log('Done')} */}
-          {this.state.signature === '' ? <h3>Welcome</h3> : <QRCode value={this.state.signature} />}
+          {this.state.signature === '' ? <div>Welcome, please type a tweet to get started!</div> : <QRCode value={this.state.signature} />}
         </div>
 
         <div className='card-footer'>
@@ -61,20 +78,20 @@ class TwitterGPG extends React.Component {
               onChange={e => this.setState({ tweetMessage: e.target.value })}
             />
             <br />
-            <FormControl
-              value={this.state.privateKey}
-              placeholder='Private Key'
-              aria-label='Private Key'
-              as='textarea'
-              aria-describedby='basic-addon2'
-              onChange={e => this.setState({ privateKey: e.target.value })}
-            />
             <InputGroup.Append>
-              <Button disabled={!this.state.tweetMessage} variant='primary' onClick={this.handleOnClick.bind(this)}>Generate QR for Tweet</Button>
+              <Button disabled={!this.state.tweetMessage} variant='primary' onClick={() => this.handleOnClick()}>Generate QR for Tweet</Button>
             </InputGroup.Append>
           </InputGroup>
         </div>
       </div>
+    )
+  }
+
+  render () {
+    return (
+      <>
+        {this.state.privateKey === '' ? this.renderPrivateKeyPage() : this.renderTweetPage()}
+      </>
     )
   }
 }

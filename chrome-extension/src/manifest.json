@@ -1,7 +1,7 @@
 {
-  "name": "Todo list chrome extension",
+  "name": "Tweet Signer",
   "version": "1.0",
-  "description": "Simple chrome extension with todo list",
+  "description": "Simple chrome extension to sign tweets",
   "permissions": ["storage"],
   "browser_action": {
     "default_title": "Simple Chrome Extension",
