@@ -46,7 +46,6 @@ class TwitterGPG extends Component {
   }
 
   renderPrivateKeyPage () {
-    console.log('rendering private key page')
     return (
       <PrivateKeyForm rerenderParentCallback={this.rerenderParentCallback} />
     )
@@ -56,15 +55,15 @@ class TwitterGPG extends Component {
     return (
       <div className='card todo-list-container' style={{ minWidth: '640px', minHeight: '480px' }}>
         <div className='card-header'>
-          <div class='d-sm-flex justify-content-between align-items-center mb-4'>
-            <h3 class='text-dark mb-0'>Tweet Signer</h3>
+          <div className='d-sm-flex justify-content-between align-items-center mb-4'>
+            <h3 className='text-dark mb-0'>Tweet Signer</h3>
             <button className='btn btn-primary btn-sm d-none d-sm-inline-block' onClick={() => this.setState({ ...this.state, privateKey: '' })}>
               <FontAwesomeIcon icon={faCogs} />
             </button>
           </div>
         </div>
         <div className='card-body'>
-          {this.state.signature === '' ? <div>Welcome, please type a tweet to get started!</div> : <QRCode value={this.state.signature} />}
+          {this.state.signature === '' ? <div>Welcome, please type a tweet to get started!</div> : <QRCode size={256} value={this.state.signature} />}
         </div>
 
         <div className='card-footer'>

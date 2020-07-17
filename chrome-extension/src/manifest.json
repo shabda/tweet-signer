@@ -1,23 +1,27 @@
 {
   "name": "Tweet Signer",
   "version": "1.0",
-  "description": "Simple chrome extension to sign tweets",
+  "description": "Chrome extension to sign tweets",
   "permissions": ["storage"],
   "browser_action": {
-    "default_title": "Simple Chrome Extension",
+    "default_title": "Tweet Signer",
     "default_popup": "index.html",
     "default_icon": {
-      "16": "get_started16.png",
-      "32": "get_started32.png",
-      "48": "get_started48.png",
-      "128": "get_started128.png"
+      "16": "tweet_signature16.png",
+      "32": "tweet_signature32.png",
+      "48": "tweet_signature48.png",
+      "64": "tweet_signature64.png",
+      "128": "tweet_signature128.png",
+      "256": "tweet_signature256.png"
     }
   },
   "icons": {
-    "16": "get_started16.png",
-    "32": "get_started32.png",
-    "48": "get_started48.png",
-    "128": "get_started128.png"
+    "16": "tweet_signature16.png",
+    "32": "tweet_signature32.png",
+    "48": "tweet_signature48.png",
+    "64": "tweet_signature64.png",
+    "128": "tweet_signature128.png",
+    "256": "tweet_signature256.png"
   },
   "manifest_version": 2
 }

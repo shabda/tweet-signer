@@ -13,7 +13,7 @@ const PrivateKeyForm = (props) => {
       const privateKey = result.privateKey || ''
       setState({ ...state, privateKey })
     })
-  }, [])
+  }, [chrome, setState])
 
   function handleOnClick () {
     const privateKey = state.privateKey
