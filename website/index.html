@@ -47,7 +47,7 @@
         <label class="block text-gray-700 text-sm font-bold mb-2" for="privkey">
           Public Key
         </label>
-        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="privkey" type="text" placeholder="ssh-rsa AAA..."></textarea>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="privkey" type="text" placeholder="------ BEGIN RSA PUBLIC KEY ------"></textarea>
       </div>
 
       <div class="mb-4">
@@ -79,22 +79,15 @@
 
     <script>
       (function() {
-        document.getElementById("urlform").addEventListener("submit", function(e) {
+        document.getElementById('urlform').addEventListener('submit', function(e) {
           e.preventDefault();
-          var request = new XMLHttpRequest();
-          var url = document.getElementById("url").value;
-          request.open('GET', url, true);
-          var response;
-          request.onload = () => {
-            try {
-              response = JSON.parse(request.responseText);
-              document.getElementById("tweet").value  = response.tweet.text;
-              document.getElementById("text").innerText = '';
-            } catch (e) {
-              document.getElementById("text").innerText = e;
-            }
-          };
-          request.send();
+          var url = document.getElementById('url').value;
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('tweet').value = data.tweet.text
+            })
+            .catch(error => console.error(error))
         });
       }());
     </script>
