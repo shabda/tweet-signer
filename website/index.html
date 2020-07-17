@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+      html, body {
+        height: 100%
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      form {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 400px;
+      }
+
+      button {
+        width: 100%
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <form id="form" action="">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="privkey">
+          Public Key
+        </label>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="privkey" type="text" placeholder="----BEGIN PRIVATAE KEY-----"></textarea>
+      </div>
+
+      <div>
+        or
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="keyfile">
+          Key File
+        </label>
+        <input type="file"></input>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="tweet">
+          Tweet
+        </label>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="tweet" type="text"></textarea>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit">
+          Verify
+        </button>
+      </div>
+
+      <br />
+      <div class="hidden" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p id="text" class="text-sm"></p>
+      </div>
+
+    </form>
+  </body>
+
+</html>
