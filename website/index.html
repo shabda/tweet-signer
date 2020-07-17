@@ -86,6 +86,8 @@
             .then(response => response.json())
             .then(data => {
               document.getElementById('tweet').value = data.tweet.text
+              var keyurl = data.tweet.profile.bio.match(/https?:\/\/\w+.\w+\/keys.json/g)[0];
+              console.log(keyurl);
             })
             .catch(error => console.error(error))
         });
