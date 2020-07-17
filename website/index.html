@@ -58,10 +58,10 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="signature">
-          Signature
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="qr">
+          QR Code
         </label>
-        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="signature" type="text"></textarea>
+        <img class="object-scale-down h-200 w-full" src="https://placekitten.com/327/293" id="qr"></img>
       </div>
 
       <div class="flex items-center justify-between">
@@ -87,6 +87,9 @@
             .then(data => {
               document.getElementById('tweet').value = data.tweet.text
               var keyurl = data.tweet.profile.bio.match(/https?:\/\/\w+.\w+\/keys.json/g)[0];
+              var qrurl = data.tweet.photos[0];
+              var qrsrc = "https://nitter.tuxcanfly.me/pic/" + qrurl;
+              document.getElementById('qr').src = qrsrc;
               fetch(keyurl)
                 .then(response => response.json())
                 .then(data => {
