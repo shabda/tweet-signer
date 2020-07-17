@@ -11,8 +11,10 @@ Signed and verified Tweets ✌
 Spec:
 -----
 
-* Add a link to your profile bio ending with '.key' which should be valid
+* Add a link to your profile bio ending with '.keys' which should be a valid
   public key.
+
+* In case .keys contains multiple keys, the first key will be used.
 
 * A tweet which needs verification must contain exactly image attachment which
   should be the signature of the tweet as a QR code.
