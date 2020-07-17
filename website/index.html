@@ -44,10 +44,10 @@
 
     <form id="form" action="">
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="privkey">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="pubkey">
           Public Key
         </label>
-        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="privkey" type="text" placeholder="------ BEGIN RSA PUBLIC KEY ------"></textarea>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="pubkey" type="text" placeholder="------ BEGIN RSA PUBLIC KEY ------"></textarea>
       </div>
 
       <div class="mb-4">
@@ -87,7 +87,11 @@
             .then(data => {
               document.getElementById('tweet').value = data.tweet.text
               var keyurl = data.tweet.profile.bio.match(/https?:\/\/\w+.\w+\/keys.json/g)[0];
-              console.log(keyurl);
+              fetch(keyurl)
+                .then(response => response.json())
+                .then(data => {
+                  document.getElementById('pubkey').value = data.key.body;
+                })
             })
             .catch(error => console.error(error))
         });
