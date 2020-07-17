@@ -123,14 +123,13 @@
           }
 
           try {
-            const match = bio.match(/https?:\/\/\w+.\w+\/keys.json/g);
+            const match = bio.match(/https?:\/\/\w+.\w+\/\w+\.key/g);
             if (match === null) {
-              throw new Error("Public key url must end with keys.json");
+              throw new Error("Public key url must end with .key");
             }
             const url = match[0];
             const response = await fetch(url)
-            const json = await response.json();
-            pubkey = json.key.body;
+            pubkey = await response.text();
             document.getElementById('pubkey').value = pubkey;
           } catch (e) {
             document.getElementById('text').textContent = e;
