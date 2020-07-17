@@ -1512,7 +1512,7 @@ exports.siphash = __browser_require__(198 /* './siphash' */, module);
 exports.Whirlpool = __browser_require__(200 /* './whirlpool' */, module);
 exports.x25519 = __browser_require__(43 /* './x25519' */, module);
 exports.x448 = __browser_require__(202 /* './x448' */, module);
-exports.verify = __browser_require__(204 /* './verify' */, module);
+exports.browser = __browser_require__(204 /* './browser' */, module);
 
 exports.version = '5.1.0';
 exports.native = exports.SHA256.native;
@@ -65873,21 +65873,29 @@ const ECDH = __browser_require__(45 /* './ecdh' */, module);
 
 module.exports = new ECDH('X448', 'ED448');
 }],
-[/* 204 */ 'bcrypto', '/lib/verify.js', function(exports, require, module, __filename, __dirname, __meta) {
+[/* 204 */ 'bcrypto', '/lib/browser.js', function(exports, require, module, __filename, __dirname, __meta) {
 const rsa = __browser_require__(179 /* '../lib/rsa' */, module);
 const encoding = __browser_require__(88 /* '../lib/encoding' */, module);
 const SHA256 = __browser_require__(72 /* '../lib/sha256' */, module);
 
-function verify(msg, pk, sig) {
+function sign(msg, pk) {
   msg = SHA256.digest(Buffer.from(msg))
-  sig = Buffer.from(sig, 'hex');
-  pub = encoding.pkcs1.RSAPublicKey.fromPEM(pk)
-  key = rsa.publicKeyExport(pub.toRaw());
-  pk = rsa.publicKeyImport(key)
-  return rsa.verify('SHA256', msg, sig, pk);
+  priv = encoding.pkcs1.RSAPrivateKey.fromPEM(pk);
+  key = rsa.privateKeyExport(priv.toRaw());
+  pk = rsa.privateKeyImport(key);
+  return rsa.sign('SHA256', msg, pk);
 }
 
-module.exports = verify;
+function verify(msg, pk, sig) {
+  msg = bcrypto.SHA256.digest(Buffer.from(msg))
+  sig = Buffer.from(sig, 'hex');
+  pub = bcrypto.ssh.SSHPublicKey.fromString(pk)
+  pk = bcrypto.rsa.publicKeyImport({'n': pub.n, 'e': pub.e})
+  return bcrypto.rsa.verify('SHA256', msg, sig, pk);
+}
+
+exports.verify = verify;
+exports.sign = sign;
 }],
 [/* 205 */ 'bpkg', '/lib/builtins/timers.js', function(exports, require, module, __filename, __dirname, __meta) {
 /*!
