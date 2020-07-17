@@ -34,25 +34,64 @@ How does it work?
 --------------------
 
 - You install our chrome extension.
-- You store your private key in the chrome extension. The private key is only stored locally.
+- You store your private key in the chrome extension. The private key is only stored locally and never leaves your computer.
 - You write the tweet in the chrome extension
 - The extension generates the signature and the QR code for the signature
 - You view and downloads the QR code
-- You attach the QR code to the tweet. Your tweet is now signed. Anyone can verify the sanctitu of your tweet. Even if twitter get compromised, nobody can tweet on your behalf.
+- You attach the QR code to the tweet. Your tweet is now signed. Anyone can verify the sanctity of your tweet. Even if twitter posting get compromised, nobody can tweet a signed tweet on your behalf. 
 
-To verify
--------------
+
+
+Loading the chrome extension
+-------------------------------
+
+In the `chrome-extension` directory look for the folder => `final-extension`. Follow the steps to below to add the extension to chrome.
+
+
+1. Open chrome://extensions/ in the chrome browser
+
+
+2. Enable developer mode by button on the top right 
+
+![](https://lh4.googleusercontent.com/bRQJjstXpYmFXy_mna363Id00Pz8LJ6dDQCebJvJ990v_3WWcEifkCfsQ2HUxKZHM9G5hpmN--ZkqZ3XNDZ12IRYzHt0ClVEHaY3xOxkpRZF5pLpRgE9_R4iSHrrQrOEwCPIKa6V "Developer Mode")
+
+
+3. Click on load unpack button on top left and select the `final-extension` folder
+
+![](https://lh6.googleusercontent.com/-fBaT9aWtboCKa70SRuejDkLF-QxAsNRmOklhRaeMGtuVchCBX33pZ5KbiZr09t0xU7oNuWMzwp-eTnBfwSqcWTJG8S30FgzR8_MGMZMve77jmwlYRYoO3wEpXzWv8amInT5QYpT "Load unpacked")
+
+
+4. It will load our chrome extension like below
+
+ ![](chrome-extension/images/extension.png)
+
+5. Enter a private key in settings to get started
+
+![](chrome-extension/images/settings.png)
+
+6. Type in the tweet to generate QR Code
+
+![](chrome-extension/images/result.png)
 
 
 
 Usage:
-======
+-------------
 
-Add public key to your profile.
+- Install the chrome extension
+- Add a private key to the extension
+- Host the public key somewhere and add public key url to your profile
+- Generate the signature QR code for your tweet and attach it to the tweet
 
-Users will see :✅: if your tweet is signed!
+To verify
+-------------
+
+- Go to https://nitter.tuxcanfly.me/
+- Paste the url of a tweet you want to verify
+- If the tweet is signed, aka has the QR code, it is checked against the tweet contents. If the signature matches, the tweet is marked as verified.
+  
 
 LICENSE:
-========
+------------
 
 MIT
