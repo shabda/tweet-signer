@@ -86,12 +86,12 @@
 
     <script>
       (function() {
+        let tweet, signature, pubkey;
+
         document.getElementById('urlform').addEventListener('submit', async function(e) {
           e.preventDefault();
 
           let bio, qrurl;
-          let tweet, signature, pubkey;
-
           try {
             let url = document.getElementById('url').value;
             url = url.replace('twitter.com', 'nitter.tuxcanfly.me'); // REMOVE
@@ -135,8 +135,21 @@
           } catch (e) {
             document.getElementById('text').textContent = e;
           }
+        });
 
+        document.getElementById('form').addEventListener('submit', async function(e) {
+          e.preventDefault();
           console.log(tweet, signature, pubkey);
+
+          // TODO: verify()
+          /*
+          msg = SHA256.digest(tweet);
+          pub = bcrypto.encoding.pkcs1.RSAPublicKey.fromPEM(pubkey);
+          key = bcrypto.rsa.publicKeyExport(pub.toRaw());
+          pubkey = bcrypto.rsa.publicKeyImport(key)
+          const result = verify('SHA256', msg, sig, pubkey);
+          console.log(result);
+          */
         });
       }());
     </script>
