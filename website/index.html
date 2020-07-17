@@ -123,13 +123,15 @@
           }
 
           try {
-            const match = bio.match(/https?:\/\/\w+.\w+\/\w+\.key/g);
+            const match = bio.match(/https?:\/\/\w+.\w+\/\w+\.keys/g);
             if (match === null) {
-              throw new Error("Public key url must end with .key");
+              throw new Error("Public key url must end with .keys");
             }
-            const url = match[0];
+            let url = match[0];
+            url = url.replace('github.com', 'cors-anywhere.herokuapp.com/https://github.com');
             const response = await fetch(url)
-            pubkey = await response.text();
+            const pubkeys = await response.text();
+            pubkey = pubkeys.split('\n')[0];
             document.getElementById('pubkey').value = pubkey;
           } catch (e) {
             document.getElementById('text').textContent = e;
@@ -142,7 +144,7 @@
           pubkey = document.getElementById('pubkey').value;
           signature = document.getElementById('signature').value;
           try {
-            const verified = bcrypto.verify(tweet, pubkey, signature);
+            const verified = bcrypto.browser.verify(tweet, pubkey, signature);
             let status;
             if (verified) {
               status = 'Verified Tweet ✅';
