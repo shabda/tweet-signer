@@ -61,7 +61,7 @@
         <label class="block text-gray-700 text-sm font-bold mb-2" for="qr">
           QR Code
         </label>
-        <img class="object-scale-down h-200 w-full" src="https://placekitten.com/327/293" id="qr"></img>
+        <img crossorigin="" class="object-scale-down h-200 w-full" src="https://placekitten.com/327/293" id="qr"></img>
       </div>
 
       <div class="flex items-center justify-between">
@@ -90,6 +90,11 @@
               var qrurl = data.tweet.photos[0];
               var qrsrc = "https://nitter.tuxcanfly.me/pic/" + qrurl;
               document.getElementById('qr').src = qrsrc;
+              QCodeDecoder()
+                .decodeFromImage(document.getElementById('qr'), function(err, result){
+                  console.log(err, result);
+                });
+
               fetch(keyurl)
                 .then(response => response.json())
                 .then(data => {
@@ -101,6 +106,7 @@
       }());
     </script>
 
+    <script src="https://cirocosta.github.io/qcode-decoder/build/qcode-decoder.min.js"></script>
   </body>
 
 </html>
