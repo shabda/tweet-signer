@@ -16,8 +16,8 @@ Spec:
 
 * In case .keys contains multiple keys, the first key will be used.
 
-* A tweet which needs verification must contain exactly image attachment which
-  should be the signature of the tweet as a QR code.
+* A tweet which needs verification must contain exactly one image attachment
+  which should be the signature of the tweet as a QR code.
 
 * The signature must be verifiable against the tweet using the public key from
   the profile.
