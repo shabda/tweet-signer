@@ -28,23 +28,26 @@
   </head>
 
   <body>
+    <form id="urlform" action="">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="url">
+          Tweet URL
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="url" type="text" placeholder="https://twitter.com/..."></input>
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit">
+          Fetch
+        </button>
+      </div>
+    </form>
+
     <form id="form" action="">
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="privkey">
           Public Key
         </label>
         <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="privkey" type="text" placeholder="ssh-rsa AAA..."></textarea>
-      </div>
-
-      <div>
-        or
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="keyfile">
-          Key File
-        </label>
-        <input type="file" id="keyfile"></input>
       </div>
 
       <div class="mb-4">
@@ -58,7 +61,7 @@
         <label class="block text-gray-700 text-sm font-bold mb-2" for="signature">
           Signature
         </label>
-        <input type="file" id="signature"></input>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="signature" type="text"></textarea>
       </div>
 
       <div class="flex items-center justify-between">
@@ -68,11 +71,34 @@
       </div>
 
       <br />
-      <div class="hidden" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+      <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
         <p id="text" class="text-sm"></p>
       </div>
 
     </form>
+
+    <script>
+      (function() {
+        document.getElementById("urlform").addEventListener("submit", function(e) {
+          e.preventDefault();
+          var request = new XMLHttpRequest();
+          var url = document.getElementById("url").value;
+          request.open('GET', url, true);
+          var response;
+          request.onload = () => {
+            try {
+              response = JSON.parse(request.responseText);
+              document.getElementById("tweet").value  = response.tweet.text;
+              document.getElementById("text").innerText = '';
+            } catch (e) {
+              document.getElementById("text").innerText = e;
+            }
+          };
+          request.send();
+        });
+      }());
+    </script>
+
   </body>
 
 </html>
