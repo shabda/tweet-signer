@@ -139,7 +139,9 @@
 
         document.getElementById('form').addEventListener('submit', async function(e) {
           e.preventDefault();
+          tweet = document.getElementById('tweet').value;
           pubkey = document.getElementById('pubkey').value;
+          signature = document.getElementById('signature').value;
           try {
             const verified = bcrypto.verify(tweet, pubkey, signature);
             let status;
