@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+      html, body {
+        height: 100%
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      form {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 400px;
+      }
+
+      button {
+        width: 100%
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <form id="urlform" action="">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="url">
+          Tweet URL
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="url" type="text" placeholder="https://twitter.com/..."></input>
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit">
+          Fetch
+        </button>
+      </div>
+    </form>
+
+    <form id="form" action="">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="pubkey">
+          Public Key
+        </label>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="pubkey" type="text" placeholder="------ BEGIN RSA PUBLIC KEY ------"></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="tweet">
+          Tweet
+        </label>
+        <textarea rows=10 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="tweet" type="text"></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="qr">
+          QR Code
+        </label>
+        <img crossorigin="" class="object-scale-down h-200 w-full" src="https://placekitten.com/327/293" id="qr"></img>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit">
+          Verify
+        </button>
+      </div>
+
+      <br />
+      <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p id="text" class="text-sm"></p>
+      </div>
+
+    </form>
+
+    <script>
+      (function() {
+        document.getElementById('urlform').addEventListener('submit', function(e) {
+          e.preventDefault();
+          var url = document.getElementById('url').value;
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById('tweet').value = data.tweet.text
+              var keyurl = data.tweet.profile.bio.match(/https?:\/\/\w+.\w+\/keys.json/g)[0];
+              var qrurl = data.tweet.photos[0];
+              var qrsrc = "https://nitter.tuxcanfly.me/pic/" + qrurl;
+              document.getElementById('qr').src = qrsrc;
+              QCodeDecoder()
+                .decodeFromImage(document.getElementById('qr'), function(err, result){
+                  console.log(err, result);
+                });
+
+              fetch(keyurl)
+                .then(response => response.json())
+                .then(data => {
+                  document.getElementById('pubkey').value = data.key.body;
+                })
+            })
+            .catch(error => console.error(error))
+        });
+      }());
+    </script>
+
+    <script src="https://cirocosta.github.io/qcode-decoder/build/qcode-decoder.min.js"></script>
+  </body>
+
+</html>
