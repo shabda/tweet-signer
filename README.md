@@ -8,6 +8,18 @@ A way for you to cryptographically sign tweets, and for others to verify it.
 
 Signed and verified Tweets ✌
 
+Spec:
+-----
+
+* Add a link to your profile bio ending with '.key' which should be valid
+  public key.
+
+* A tweet which needs verification must contain exactly image attachment which
+  should be the signature of the tweet as a QR code.
+
+* The signature must be verifiable against the tweet using the public key from
+  the profile.
+
 Why does this exist?
 ----------------------
 
