@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { InputGroup, FormControl, Button } from 'react-bootstrap'
 import QRCode from 'qrcode.react'
-import NodeRSA from 'node-rsa'
+import bcrypto from 'bcrypto'
 import PrivateKeyForm from './PrivateKeyForm'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs } from '@fortawesome/free-solid-svg-icons'
@@ -33,9 +33,7 @@ class TwitterGPG extends Component {
   }
 
   signTweet (data) {
-    const rsa = new NodeRSA(this.state.privateKey, NodeRSA.FormatPem)
-    const sign = rsa.sign(data, 'hex')
-    return sign
+    return bcrypto.browser.sign(data, this.state.privateKey);
   }
 
   rerenderParentCallback () {
