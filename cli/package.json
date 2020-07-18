@@ -1,0 +1,18 @@
+{
+  "name": "tweet-signer",
+  "version": "1.0.0",
+  "description": "Sign and Verify Tweets",
+  "main": "bin/tweet",
+  "dependencies": {
+    "bcrypto": "^5.2.0",
+    "open": "^7.0.4",
+    "prompt": "^1.0.0",
+    "qrcode": "^1.4.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Javed Khan",
+  "license": "ISC"
+}

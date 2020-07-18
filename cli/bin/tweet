@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const open = require('open');
+const qrcode = require('qrcode');
+const prompt = require('prompt');
+
+const rsa = require('bcrypto/lib/rsa');
+const ssh = require('bcrypto/lib/ssh');
+const SHA256 = require('bcrypto/lib/sha256');
+
+function sign(msg, privkey) {
+  const hash = SHA256.digest(Buffer.from(msg))
+  const key = ssh.SSHPrivateKey.fromString(privkey);
+  const pk = rsa.privateKeyImport(key);
+  return rsa.sign('SHA256', hash, pk).toString('hex');
+}
+
+let tweet, privkey;
+prompt.start();
+prompt.get(['tweet', 'privkey'], async function (err, result) {
+  if (err) { return 1; }
+  tweet = result.tweet;
+  privkey = result.privkey;
+
+  const signature = sign(tweet, fs.readFileSync(privkey).toString());
+
+  const qr = await qrcode.toDataURL(signature);
+  open(qr);
+});
