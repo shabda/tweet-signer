@@ -859,7 +859,7 @@ batch@0.6.1:
 
 bcrypto@tuxcanfly/bcrypto#verify:
   version "5.1.0"
-  resolved "https://codeload.github.com/tuxcanfly/bcrypto/tar.gz/ca69a700cfb56be1efac3155ba6b747d322677ad"
+  resolved "https://codeload.github.com/tuxcanfly/bcrypto/tar.gz/b5cecc95fecb4398411915cb3b6fb8c52373832c"
   dependencies:
     bufio "~1.0.6"
     loady "~0.0.1"

@@ -1,6 +1,7 @@
 // Default imports
 import React, { useState, useEffect } from 'react'
 import { InputGroup, FormControl, Button } from 'react-bootstrap'
+import bcrypto from 'bcrypto'
 
 // Custom imports
 // None
@@ -17,6 +18,11 @@ const PrivateKeyForm = (props) => {
 
   function handleOnClick () {
     const privateKey = state.privateKey
+    // TODO: handle UX
+    if (!bcrypto.browser.valid(privateKey)) {
+      console.error('invalid key');
+      return;
+    }
     chrome.storage.local.set({ privateKey })
     props.rerenderParentCallback()
     setState({ privateKey: '' })
