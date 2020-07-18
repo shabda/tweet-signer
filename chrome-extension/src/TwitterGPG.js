@@ -106,15 +106,16 @@ class TwitterGPG extends Component {
           <InputGroup className='mb-3'>
             <FormControl
               value={this.state.tweetMessage}
-              placeholder='Tweet'
-              aria-label='Tweet'
+              placeholder='Type your tweet here..'
+              aria-label='Type your tweet here..'
               as='textarea'
               aria-describedby='basic-addon2'
               onChange={e => this.setState({ tweetMessage: e.target.value })}
             />
-            <br />
+            &nbsp;&nbsp;
             <InputGroup.Append>
               <Button disabled={!this.state.tweetMessage} variant='primary' onClick={() => this.handleOnClick()}>Generate QR for Tweet</Button>
+              &nbsp;&nbsp;
               <Button disabled={!this.state.signature} variant='primary' onClick={() => this.downloadQR()}>Download QR</Button>
             </InputGroup.Append>
           </InputGroup>
