@@ -8,6 +8,19 @@ A way for you to cryptographically sign tweets, and for others to verify it.
 
 Signed and verified Tweets ✌
 
+Demo:
+----
+
+Open: https://nitter.tuxcanfly.me/
+
+Paste url: https://twitter.com/shabda/status/1284468335090954242
+
+Click Fetch. Wait until Public Key, Tweet and Signature fields are auto-populated.
+
+Click Verify. Should show :✅
+
+Video: https://youtu.be/ZbhptAmG__Q
+
 Spec:
 -----
 
